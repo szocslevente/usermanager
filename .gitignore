@@ -1,0 +1,19 @@
+# Ignore target directory and build artifacts
+/target/
+*.iml
+.idea/
+mvnw
+mvnw.cmd
+
+# Ignore log files
+logs/
+*.log
+
+# Ignore generated files
+/application.properties
+
+# Ignore IDE-specific files
+.vscode/
+*.classpath
+*.project
+.settings/
