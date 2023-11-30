@@ -18,16 +18,26 @@ public class DatabaseService {
             if (newDatabaseFile.isEmpty()) {
                 throw new IllegalArgumentException("New database file is empty.");
             }
-            File oldDatabaseFile = new File("accounts.db");
-            String filePath = oldDatabaseFile.getAbsolutePath();
+
+            // Get the database file path from the DATABASE_FILE environment variable
+            String databaseFilePath = System.getenv("DATABASE_FILE");
+
+            // If the DATABASE_FILE environment variable is not set, use a default path
+            if (databaseFilePath == null || databaseFilePath.isEmpty()) {
+                databaseFilePath = "accounts.db";
+            }
+
+            File databaseFile = new File(databaseFilePath);
 
             try {
-                File file = new File(filePath);
-                if (!file.exists()) {
-                    file.createNewFile();
+                if (!databaseFile.exists()) {
+                    databaseFile.createNewFile();
                 }
 
-                FileOutputStream fos = new FileOutputStream(file);
+                // Print the absolute path of the file
+                System.out.println("File absolute path: " + databaseFile.getAbsolutePath());
+
+                FileOutputStream fos = new FileOutputStream(databaseFile);
                 byte[] bytes = newDatabaseFile.getBytes();
                 fos.write(bytes);
                 fos.close();

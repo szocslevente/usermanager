@@ -49,7 +49,15 @@ public class DatabaseController {
 
     @GetMapping(path = "/download")
     public ResponseEntity<InputStreamResource> downloadFile() throws Exception {
-        File downloadFile = new File("accounts.db");
+        // Get the database file path from the DATABASE_FILE environment variable
+        String databaseFilePath = System.getenv("DATABASE_FILE");
+
+        // If the DATABASE_FILE environment variable is not set, use a default path
+        if (databaseFilePath == null || databaseFilePath.isEmpty()) {
+            databaseFilePath = "accounts.db";
+        }
+
+        File downloadFile = new File(databaseFilePath);
         InputStreamResource resource = new InputStreamResource(new FileInputStream(downloadFile));
         HttpHeaders header = new HttpHeaders();
         header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + downloadFile.getName());
